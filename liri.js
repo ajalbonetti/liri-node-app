@@ -29,8 +29,14 @@ var client = new Twitter({
 var params = {screen_name: 'visualcoder'};
 
 
+// ACCESSES SPOTIFY PACKAGE
+
 var spotify = require('spotify');
 
+
+// ADDS REQUEST PACKAGE
+
+var request = require('request');
 
 
 // PULLS LAST 20 TWEETS AND DISPLAYS THEM IN THE CONSOLE
@@ -50,6 +56,7 @@ client.get('statuses/user_timeline', params, function(error, tweets, response) {
 });
 
 } 
+
 
 // DISPLAYS SPOTIFY INFORMATION BASED ON SONG NAME 
 
@@ -72,6 +79,9 @@ else if (firstInput == 'spotify-this-song' && secondInput.length > 0) {
 
 
 }
+
+
+// DEFAULTS TO ACE OF BASE IF THE SONG FIELD IS LEFT EMPTY
 
 else if (firstInput == 'spotify-this-song' && secondInput.length == 0) {
 
@@ -98,8 +108,64 @@ else if (firstInput == 'spotify-this-song' && secondInput.length == 0) {
 
 	});
 
+}
+
+
+// DISPLAYS MOVIE INFORMATION BASED ON MOVIE NAME
+
+else if (firstInput == 'movie-this' && secondInput.length > 0) {
+
+	request('http://www.omdbapi.com/?t=' + secondInputString + '&plot=short&r=json&tomatoes=true', function (error, response, body) {
+
+		if (error) {
+			console.log('Error occurred: ' + err);
+			return;
+		}
+
+		console.log('Movie Title: ' + JSON.parse(body)["Title"]);
+		console.log('Year: ' + JSON.parse(body)["Year"]);
+		console.log('IMDB Rating: ' + JSON.parse(body)["imdbRating"]);
+		console.log('Country: ' + JSON.parse(body)["Country"]);
+		console.log('Language: ' + JSON.parse(body)["Language"]);
+		console.log('Plot: ' + JSON.parse(body)["Plot"]);
+		console.log('Actors: ' + JSON.parse(body)["Actors"]);
+		console.log('Rotten Tomatoes Rating: ' + JSON.parse(body)["tomatoRating"]);
+		console.log('Rotten Tomatoes URL: ' + JSON.parse(body)["tomatoURL"]);
+
+
+	});
 
 }
+
+
+// DEFAULTS TO MR.NOBODY IF MOVIE INPUT IS LEFT BLANK
+
+else if (firstInput == 'movie-this' && secondInput.length == 0) {
+
+	request('http://www.omdbapi.com/?t=mr+nobody&plot=short&r=json&tomatoes=true', function (error, response, body) {
+
+		if (error) {
+			console.log('Error occurred: ' + err);
+			return;
+		}
+
+		console.log('Movie Title: ' + JSON.parse(body)["Title"]);
+		console.log('Year: ' + JSON.parse(body)["Year"]);
+		console.log('IMDB Rating: ' + JSON.parse(body)["imdbRating"]);
+		console.log('Country: ' + JSON.parse(body)["Country"]);
+		console.log('Language: ' + JSON.parse(body)["Language"]);
+		console.log('Plot: ' + JSON.parse(body)["Plot"]);
+		console.log('Actors: ' + JSON.parse(body)["Actors"]);
+		console.log('Rotten Tomatoes Rating: ' + JSON.parse(body)["tomatoRating"]);
+		console.log('Rotten Tomatoes URL: ' + JSON.parse(body)["tomatoURL"]);
+
+
+	});
+
+}
+
+
+
 
 
 
